@@ -1,0 +1,94 @@
+---
+title       : Developing Data Products Course Project
+subtitle    : Finance Calculator
+author      : Robert Richter
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+
+---
+
+## Basics of the Finance calculator  
+
+Finance calculator determines the future capital, given a starting capital, a annual interest rate and a time scale.   
+
+###  Input parameters
+
+- starting capital
+- annual interest rate
+- time of the investment
+
+### Output
+
+- future capital
+
+---
+
+## Theory
+Recall all the variables
+
+- starting capital (in Dollars) :     $\Large{C_S}$
+- annual interest rate (in %)   :     $\Large{p}$ 
+- time of the investment (in years)   $\Large{Y}$
+- future capital (in Dollars) :       $\large{C_F}$
+
+The future capital will be caluclated via the following formula
+
+$$ \Large{C_F= C_S \left(1+\frac{p}{100} \right)^Y}$$
+
+---
+
+
+## Code  ui.R
+
+
+```r
+shinyUI(pageWithSidebar(
+        headerPanel("Finance Calculator"),        
+        sidebarPanel(
+                p('Enter your starting capital you want to invest, the time you want invest it as well as the average interest rate.
+                    '),
+                h3("Initial capital"),
+                numericInput('capital', label='Dollars',0),
+                h3("Time"),
+                numericInput('years', label='years',0),
+                h3("Interest rate per year"),
+                numericInput('rate', label='%',0)
+        ),
+        mainPanel(
+                h3("Future capital "),
+                p('Given the data your future capital will be (in Dollars)'),
+                verbatimTextOutput("prediction"))
+))
+```
+
+```
+## Error in eval(expr, envir, enclos): could not find function "shinyUI"
+```
+
+---
+
+## Code server.R
+
+
+```r
+library(shiny)
+outcome <-function(capital, years, rate) capital*(1+rate/100)^years 
+shinyServer(
+    function(input, output){
+        output$prediction <- renderPrint({outcome(input$capital, input$years, input$rate)})
+    }
+                )
+```
+
+## Link to the application
+
+
+Finally let us display also the link for the application
+
+
+https://robrichter1979.shinyapps.io/course_project

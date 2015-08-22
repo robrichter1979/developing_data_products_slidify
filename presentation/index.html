@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Developing Data Products Course Project</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Developing Data Products Course Project">
+  <meta name="author" content="Robert Richter">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Developing Data Products Course Project</h1>
+    <h2>Finance Calculator</h2>
+    <p>Robert Richter<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Basics of the Finance calculator</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Finance calculator determines the future capital, given a starting capital, a annual interest rate and a time scale.   </p>
+
+<h3>Input parameters</h3>
+
+<ul>
+<li>starting capital</li>
+<li>annual interest rate</li>
+<li>time of the investment</li>
+</ul>
+
+<h3>Output</h3>
+
+<ul>
+<li>future capital</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Theory</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Recall all the variables</p>
+
+<ul>
+<li>starting capital (in Dollars) :     \(\Large{C_S}\)</li>
+<li>annual interest rate (in %)   :     \(\Large{p}\) </li>
+<li>time of the investment (in years)   \(\Large{Y}\)</li>
+<li>future capital (in Dollars) :       \(\large{C_F}\)</li>
+</ul>
+
+<p>The future capital will be caluclated via the following formula</p>
+
+<p>\[ \Large{C_F= C_S \left(1+\frac{p}{100} \right)^Y}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Code  ui.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">shinyUI(pageWithSidebar(
+        headerPanel(&quot;Finance Calculator&quot;),        
+        sidebarPanel(
+                p(&#39;Enter your starting capital you want to invest, the time you want invest it as well as the average interest rate.
+                    &#39;),
+                h3(&quot;Initial capital&quot;),
+                numericInput(&#39;capital&#39;, label=&#39;Dollars&#39;,0),
+                h3(&quot;Time&quot;),
+                numericInput(&#39;years&#39;, label=&#39;years&#39;,0),
+                h3(&quot;Interest rate per year&quot;),
+                numericInput(&#39;rate&#39;, label=&#39;%&#39;,0)
+        ),
+        mainPanel(
+                h3(&quot;Future capital &quot;),
+                p(&#39;Given the data your future capital will be (in Dollars)&#39;),
+                verbatimTextOutput(&quot;prediction&quot;))
+))
+</code></pre>
+
+<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;shinyUI&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Code server.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(shiny)
+outcome &lt;-function(capital, years, rate) capital*(1+rate/100)^years 
+shinyServer(
+    function(input, output){
+        output$prediction &lt;- renderPrint({outcome(input$capital, input$years, input$rate)})
+    }
+                )
+</code></pre>
+
+<h2>Link to the application</h2>
+
+<p>Finally let us display also the link for the application</p>
+
+<p><a href="https://robrichter1979.shinyapps.io/course_project">https://robrichter1979.shinyapps.io/course_project</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Basics of the Finance calculator'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Theory'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Code  ui.R'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Code server.R'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
